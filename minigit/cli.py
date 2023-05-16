@@ -2,11 +2,13 @@ import argparse
 import logging
 import os
 from . import data
+from . import base
 
 
 def main():
     logging.basicConfig(level=logging.DEBUG)
     args = parse_args()
+    logging.info("parse args")
     args.func(args)
 
 
@@ -20,8 +22,12 @@ def parse_args():
     init_parser.set_defaults(func=init)
 
     hash_object_parser = commands.add_parser("hash-object")
-    hash_object_parser.set_defaults(func=data.hash_object)
-    hash_object_parser.add_argument("path", type=str)
+    hash_object_parser.set_defaults(func=hash_object)
+    hash_object_parser.add_argument("file", type=str)
+
+    cat_file_parser = commands.add_parser("cat-file")
+    cat_file_parser.set_defaults(func=cat_file)
+    cat_file_parser.add_argument("object")
 
     return parser.parse_args()
 
@@ -33,4 +39,8 @@ def init(args):
 
 def hash_object(args):
     with open(args.file, "rb") as f:
-        print(data.hash_object(f.read()))
+        logging.debug(f"Hashing {args.file}: {data.hash_object(f.read())}")
+
+
+def cat_file(args):
+    logging.debug(f"Cat file: {args.object} Hash: {data.get_object(args.object, expected=None)}")
