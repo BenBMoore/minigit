@@ -1,6 +1,6 @@
 import argparse
 import logging
-import os
+import pathlib
 from . import data
 from . import base
 
@@ -34,7 +34,7 @@ def parse_args():
 
 def init(args):
     data.init()
-    logging.debug(f"Initialized data directory in {os.getcwd()}/{data.GIT_DIR}")
+    logging.debug(f"Initialized data directory in {pathlib.Path().absolute()}/{data.GIT_DIR}")
 
 
 def hash_object(args):
