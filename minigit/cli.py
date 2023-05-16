@@ -1,6 +1,6 @@
 import argparse
 import logging
-import pathlib
+from pathlib import Path
 from . import data
 from . import base
 
@@ -29,18 +29,26 @@ def parse_args():
     cat_file_parser.set_defaults(func=cat_file)
     cat_file_parser.add_argument("object")
 
+    write_tree_parser = commands.add_parser("write-tree")
+    write_tree_parser.set_defaults(func=write_tree)
+
     return parser.parse_args()
 
 
 def init(args):
     data.init()
-    logging.debug(f"Initialized data directory in {pathlib.Path().absolute()}/{data.GIT_DIR}")
+    logging.debug(f"Initialized data directory in {Path().absolute()}/{data.GIT_DIR}")
 
 
 def hash_object(args):
-    with open(args.file, "rb") as f:
-        logging.debug(f"Hashing {args.file}: {data.hash_object(f.read())}")
+    path = Path(".") / args.object
+    obj = path.read_bytes()
+    logging.debug(f"Hashing {path.name}: {data.hash_object(obj)}")
 
 
 def cat_file(args):
     logging.debug(f"Cat file: {args.object} Hash: {data.get_object(args.object, expected=None)}")
+
+
+def write_tree(args):
+    base.write_tree()
