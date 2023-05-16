@@ -51,4 +51,4 @@ def cat_file(args):
 
 
 def write_tree(args):
-    base.write_tree()
+    logging.debug(f"Write tree: {base.write_tree()}")

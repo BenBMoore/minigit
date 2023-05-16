@@ -15,7 +15,7 @@ def init():
 def hash_object(data, type_="blob"):
     obj = type_.encode() + b"\x00" + data
     oid = hashlib.sha256(data).hexdigest()
-
+    logging.debug(f"Hashed object {oid} with type {type_}")
     path = Path(".") / GIT_DIR / "objects" / oid
     path.write_bytes(obj)
 
