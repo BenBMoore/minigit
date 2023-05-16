@@ -4,6 +4,15 @@ from . import data
 
 
 def write_tree(directory=Path(".")):
+    """
+    Write a tree object from a directory.
+
+    Args:
+        directory (Path): The directory to write the tree object from.
+
+    Returns:
+        str: The tree object's SHA-1 hash.
+    """
     entries = []
     for entry in directory.glob("*"):
         if is_ignored(entry):
@@ -26,5 +35,52 @@ def write_tree(directory=Path(".")):
     return data.hash_object(tree.encode(), "tree")
 
 
+def _iter_tree_entries(oid):
+    if not oid:
+        return
+    tree = data.get_object(oid, "tree")
+    for entry in tree.decode().splitlines():
+        type_, oid, name = entry.split(" ", 2)
+        yield type_, oid, name
+
+
+def get_tree(oid, base_path=Path(".")):
+    result = {}
+    for type_, oid, name in _iter_tree_entries(oid):
+        if type_ == "blob":
+            path = base_path / name
+            result[path] = oid
+        elif type_ == "tree":
+            path = base_path / name
+            result.update(get_tree(oid, base_path=path))
+        else:
+            raise ValueError(f"Invalid type: {type_}")
+
+    return result
+
+
+def read_tree(tree_oid):
+    """
+    Read a tree object.
+
+    Args:
+        tree_oid (str): The tree object's SHA-1 hash.
+    """
+
+    for path, oid in get_tree(tree_oid, Path(".")).items():
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_bytes(data.get_object(oid))
+
+
 def is_ignored(path):
+    """
+    Check if a path is ignored.
+
+    Args:
+        path (Path): The path to check.
+
+    Returns:
+        bool: True if the path is ignored, False otherwise.
+    """
+
     return data.GIT_DIR in path.parts

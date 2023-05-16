@@ -32,6 +32,10 @@ def parse_args():
     write_tree_parser = commands.add_parser("write-tree")
     write_tree_parser.set_defaults(func=write_tree)
 
+    read_tree_parser = commands.add_parser("read-tree")
+    read_tree_parser.set_defaults(func=read_tree)
+    read_tree_parser.add_argument("tree")
+
     return parser.parse_args()
 
 
@@ -52,3 +56,7 @@ def cat_file(args):
 
 def write_tree(args):
     logging.debug(f"Write tree: {base.write_tree()}")
+
+
+def read_tree(args):
+    logging.debug(f"Read tree: {base.read_tree(args.tree)}")
