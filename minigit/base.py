@@ -36,6 +36,12 @@ def write_tree(directory=Path(".")):
 
 
 def _iter_tree_entries(oid):
+    """
+    Iterate over the entries in a tree object.
+
+    Args:
+        oid (str): The tree object's SHA-256 hash.
+    """
     if not oid:
         return
     tree = data.get_object(oid, "tree")
@@ -45,6 +51,20 @@ def _iter_tree_entries(oid):
 
 
 def get_tree(oid, base_path=Path(".")):
+    """
+    Gets the tree structure from a given path
+
+    Args:
+        oid (str): The tree object's SHA-1 hash.
+        base_path (Path): The base path to start from.
+
+    Returns:
+        dict: A dictionary of the tree structure.
+        {
+            Path("path/to/file"): "oid",
+            Path("path/to/directory"): "oid"
+        }
+    """
     result = {}
     for type_, oid, name in _iter_tree_entries(oid):
         if type_ == "blob":
@@ -61,7 +81,7 @@ def get_tree(oid, base_path=Path(".")):
 
 def read_tree(tree_oid):
     """
-    Read a tree object.
+    Read a tree object, and write to the working directory
 
     Args:
         tree_oid (str): The tree object's SHA-1 hash.
