@@ -1,7 +1,6 @@
 {
     "cSpell.words": [
         "minigit",
-        "minitgit"
     ],
     "python.linting.pylamaEnabled": true,
     "python.linting.banditEnabled": false,

@@ -86,7 +86,8 @@ def _empty_current_directory():
 
     """
     directory = Path(".")
-    # We have to loop twice - once to delete any files, then once the directories are empty, delete the directories
+    # We have to loop twice - once to delete any files, then once the directories are empty
+    # delete the directories
     for entry in directory.rglob("*"):
         if is_ignored(entry):
             logging.debug(f"Ignored: {entry.absolute} - within .minigit folder")

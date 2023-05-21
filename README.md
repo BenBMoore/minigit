@@ -14,6 +14,6 @@ Install locally using `pip -e .`
 
 `minigit cat-file <filepath>` Point this to the file within the objectstore (.minigit/object/<file>) to read the contents
 
-`minitgit write-tree` Creates a tree based hashed file structure of the current directory
+`minigit write-tree` Creates a tree based hashed file structure of the current directory
 
-`minitgit read-tree` Recreates the original files/file structure based on what's currently stored in the object store
+`minigit read-tree` Recreates the original files/file structure based on what's currently stored in the object store

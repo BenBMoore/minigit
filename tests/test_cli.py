@@ -1,4 +1,3 @@
-from random import sample
 import pytest
 from minigit import data, base
 import os
@@ -62,9 +61,9 @@ def test_read_tree(tmp_folder_with_sample_data):
     tmp_dir_files = []
     sample_dir_files = []
     data.init()
-    # Write the tree to the minitgit object store
+    # Write the tree to the minigit object store
     tree_oid = base.write_tree()
-    # Read the tree from the minitgit object store
+    # Read the tree from the minigit object store
     base.read_tree(tree_oid)
     for entry in Path(".").glob("*"):
         # Ignore .minigit folder

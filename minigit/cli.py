@@ -51,7 +51,9 @@ def hash_object(args):
 
 
 def cat_file(args):
-    logging.debug(f"Cat file: {args.object} Hash: {data.get_object(args.object, expected=None)}")
+    logging.debug(
+        f"Cat file: {args.object} Hash: {data.get_object(args.object, expected=None)}"
+    )
 
 
 def write_tree(args):
