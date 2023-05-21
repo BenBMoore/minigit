@@ -19,7 +19,8 @@ def init():
 
 def hash_object(data, type_="blob"):
     """
-    Hashes a given object and returns the hash.
+    Hashes a given object, adds it to the minigit object store,
+    and returns the hash.
     :param data: The data to hash
     :param type_: The type of object to hash
     :return: The hash of the object as a string.

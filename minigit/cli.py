@@ -45,7 +45,7 @@ def init(args):
 
 
 def hash_object(args):
-    path = Path(".") / args.object
+    path = Path(".") / args.file
     obj = path.read_bytes()
     logging.debug(f"Hashing {path.name}: {data.hash_object(obj)}")
 

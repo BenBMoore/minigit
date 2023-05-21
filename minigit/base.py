@@ -1,6 +1,7 @@
 import logging
 from pathlib import Path
 from . import data
+import shutil
 
 
 def write_tree(directory=Path(".")):
