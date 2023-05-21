@@ -79,6 +79,29 @@ def get_tree(oid, base_path=Path(".")):
     return result
 
 
+def _empty_current_directory():
+    """
+    Delete all files and directories in the current working directory
+
+    """
+    directory = Path(".")
+    # We have to loop twice - once to delete any files, then once the directories are empty, delete the directories
+    for entry in directory.rglob("*"):
+        if is_ignored(entry):
+            logging.debug(f"Ignored: {entry.absolute} - within .minigit folder")
+            continue
+        if entry.is_file():
+            entry.unlink()
+            logging.debug(f"Deleted: {entry.absolute}")
+    for entry in directory.rglob("*"):
+        if is_ignored(entry):
+            logging.debug(f"Ignored: {entry.absolute} - within .minigit folder")
+            continue
+        if entry.is_file():
+            entry.rmdir()
+            logging.debug(f"Deleted: {entry.absolute}")
+
+
 def read_tree(tree_oid):
     """
     Read a tree object, and write to the working directory
@@ -86,7 +109,7 @@ def read_tree(tree_oid):
     Args:
         tree_oid (str): The tree object's SHA-1 hash.
     """
-
+    _empty_current_directory()
     for path, oid in get_tree(tree_oid, Path(".")).items():
         path.parent.mkdir(parents=True, exist_ok=True)
         path.write_bytes(data.get_object(oid))
