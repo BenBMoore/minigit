@@ -5,7 +5,7 @@ import os
 from pathlib import Path
 import shutil
 
-SAMPLE_PATH = "minigit/tests/sample/"
+SAMPLE_PATH = Path("tests/sample/").resolve()
 
 
 @pytest.fixture()
@@ -13,7 +13,7 @@ def tmp_folder_with_sample_data(tmp_path_factory):
     base_path = tmp_path_factory.mktemp("data", numbered=True)
     os.chdir(base_path)
     print(str(base_path))
-    shutil.copytree(SAMPLE_PATH, str(base_path), dirs_exist_ok=True)
+    shutil.copytree(str(SAMPLE_PATH), str(base_path), dirs_exist_ok=True)
     return base_path
 
 
@@ -41,8 +41,8 @@ def test_get_object(tmp_folder_with_sample_data):
     Test that the get-object command works
     """
     data.init()
-    hash = data.hash_object(Path(SAMPLE_PATH + "cats.txt").read_bytes())
-    assert data.get_object(hash) == Path(SAMPLE_PATH + "cats.txt").read_bytes()
+    hash = data.hash_object((SAMPLE_PATH / "cats.txt").read_bytes())
+    assert data.get_object(hash) == Path(SAMPLE_PATH / "cats.txt").read_bytes()
 
 
 def test_write_tree(tmp_folder_with_sample_data):
