@@ -5,7 +5,7 @@ import os
 from pathlib import Path
 import shutil
 
-SAMPLE_PATH = "/Users/ben/Dev/minigit/tests/sample/"
+SAMPLE_PATH = "minigit/tests/sample/"
 
 
 @pytest.fixture()
